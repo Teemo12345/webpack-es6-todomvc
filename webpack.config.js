@@ -1,7 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const htmlWebpackPlugin = require('html-webpack-plugin');
-
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports={
 	entry:{
 		main:'./src/js/main.js'
@@ -12,7 +12,19 @@ module.exports={
 		filename:"js/[name]-[hash:5]",
 		path:path.resolve(__dirname,"dist/")
 	},
+	module:{
+		rules:[
+			{
+				test:/\.css$/,
+				use:ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader"
+        })
+			}
+		]
+	},
 	plugins:[
+		new ExtractTextPlugin("css/todo.css"),
 		new webpack.HotModuleReplacementPlugin(),
 		new htmlWebpackPlugin({
 			template:"./src/template/index.html",

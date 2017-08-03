@@ -5,6 +5,7 @@ class view{
 	constructor(template){
 		this.template = template;
 		this.$newTodo = qs('.new-todo');
+		this.$todoList = qs('.todo-list');
 	}
 	bindAddItem(handler){
 		console.log(handler)
@@ -15,6 +16,10 @@ class view{
 				handler(title)
 			}
 		})
+	}
+	showItems(items){
+		console.log(items)
+		this.$todoList.innerHTML = this.template.itemList(items);
 	}
 }
 export default view;

@@ -10,9 +10,13 @@ class Controller{
 		const route = raw.replace(/^#\//,'');
 		console.log(route+"---")
 		this._activeRoute = route;
+		this._filter()
 	}
 	addItem(title){
-		this.store.insert({id:Date.now(),title,completed:false},()=>{this._filter(true)})
+		this.store.insert({id:Date.now(),title,completed:false},()=>{
+			this.view.clearNewTodo();
+			this._filter(true)
+		})
 	}
 	_filter(force){
 		const route = this._activeRoute;
@@ -23,7 +27,9 @@ class Controller{
 				'completed':{completed:true}
 			}[route],this.view.showItems.bind(this.view))
 		}
-		this.store.count(function(total){})
+		this.store.count((total,active,completed)=>{
+			this.view.setMainVisibility(total);
+		})
 	}
 }
 export default Controller;

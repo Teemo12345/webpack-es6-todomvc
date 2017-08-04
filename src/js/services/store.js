@@ -20,27 +20,27 @@ export default class Store{
 			callback()
 		}
 	}
-	find(query,callback){
-			console.log(query)
-		
+	find(query,callback){	
 		const todos = this.getLocalStorage();
 		let k;
-		let tds = todos.filter(function(todo){
+		callback(todos.filter((todo)=>{
 			for(k in query){
 				if(query[k]!==todo[k]){
 					return false;
 				}
-			
 			}
-				return true;
-		})
-		console.log(tds)
-		callback(tds)
+			return true;
+		}))
 	}
 	count(callback){
-		console.log(this.find)
-		this.find({},function(data){
-			console.log(data)
+		this.find({},data=>{
+			const total = data.length;
+			let i = total;
+			let completed = 0;
+			while(i--){
+				completed+=data[i].completed;
+			}
+			callback(total,total-completed,completed);
 		})
 	}
 }

@@ -6,9 +6,9 @@ class view{
 		this.template = template;
 		this.$newTodo = qs('.new-todo');
 		this.$todoList = qs('.todo-list');
+		this.$main = qs('.main')
 	}
 	bindAddItem(handler){
-		console.log(handler)
 		$on(this.$newTodo,'change',({target})=>{
 			const title = target.value.trim();
 			// console.log(title)
@@ -18,8 +18,13 @@ class view{
 		})
 	}
 	showItems(items){
-		console.log(items)
 		this.$todoList.innerHTML = this.template.itemList(items);
+	}
+	setMainVisibility(visible){
+		this.$main.style.display = !!visible?'block':'none';
+	}
+	clearNewTodo(){
+		this.$newTodo.value=''
 	}
 }
 export default view;
